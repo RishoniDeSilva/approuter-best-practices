@@ -14,6 +14,18 @@ A practical, opinionated guide to building fast, maintainable applications with 
 | [4. Turbopack](docs/04-turbopack.md) | The now-default Rust bundler: what changed, filesystem caching, migration notes |
 | [5. What's New in Next.js 16](docs/05-nextjs-16-features.md) | Cache Components, `proxy.ts`, React Compiler, DevTools MCP, breaking changes |
 
+## 🧪 Example Project
+
+Every pattern in the guide is demonstrated in a runnable Next.js 16 app: **[examples/dashboard](examples/dashboard)**.
+
+```bash
+cd examples/dashboard
+npm install
+npm run dev
+```
+
+It shows streaming with `<Suspense>`, `"use cache"` + `cacheTag`/`cacheLife`, Partial Pre-Rendering, Server Actions, feature-module structure, and `proxy.ts` — with an in-memory mock database, so there's nothing to set up.
+
 ## Who is this for?
 
 - Developers migrating from the Pages Router or from Next.js 13–15 to Next.js 16

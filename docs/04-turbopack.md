@@ -40,14 +40,11 @@ next build --webpack   # escape hatch, webpack path is deprecated
 Turbopack can persist its compilation cache to disk, so the *second* `next dev` / `next build` starts warm:
 
 ```ts
-// next.config.ts
+// next.config.ts (flag names verified against Next.js 16.2)
 const nextConfig: NextConfig = {
-  turbopack: {
-    // check your Next.js version's docs — this graduated from
-    // experimental.turbopackFileSystemCacheForDev in early 16.x releases
-  },
   experimental: {
-    turbopackFileSystemCache: true,
+    turbopackFileSystemCacheForDev: true,   // default: true — dev restarts start warm
+    turbopackFileSystemCacheForBuild: true, // default: false — opt in for builds
   },
 };
 ```

@@ -66,7 +66,7 @@ Cache keys are generated **automatically from the arguments and closed-over valu
 ## 3.3 Controlling lifetime with `cacheLife`
 
 ```ts
-import { unstable_cacheLife as cacheLife } from "next/cache";
+import { cacheLife } from "next/cache"; // stable (unprefixed) since Next.js 16.x
 
 export async function getWeather(city: string) {
   "use cache";
@@ -92,7 +92,7 @@ Rule of thumb: pick the **longest lifetime you can tolerate**, then rely on tags
 ## 3.4 Targeted invalidation with `cacheTag` + `revalidateTag`
 
 ```ts
-import { unstable_cacheTag as cacheTag } from "next/cache";
+import { cacheTag } from "next/cache";
 
 export async function getProduct(id: string) {
   "use cache";
