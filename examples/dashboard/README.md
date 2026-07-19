@@ -27,6 +27,8 @@ Then open http://localhost:3000.
 | `/dashboard` conversion widget | Section error boundary + retry around a deliberately flaky data source | [6. Error Handling](../../docs/06-error-handling.md) |
 | `app/error.tsx`, `app/dashboard/error.tsx`, `app/global-error.tsx` | Layered boundaries with the `router.refresh()` + `reset()` retry pattern | [6. Error Handling](../../docs/06-error-handling.md) |
 | `instrumentation.ts` | `onRequestError` — one reporting point for all server errors | [6. Error Handling](../../docs/06-error-handling.md) |
+| `components/crash-button.tsx` | 💥 demo triggers on `/` and `/dashboard` — throws during render to exercise each boundary layer | [6. Error Handling](../../docs/06-error-handling.md) |
+| `components/section-error-boundary.tsx` | Reusable retry-capable boundary (refresh + clear in one transition) | [6. Error Handling](../../docs/06-error-handling.md) |
 | `next.config.ts` | `cacheComponents` + `reactCompiler` enabled | [5. Next.js 16](../../docs/05-nextjs-16-features.md) |
 
 ## Things to try

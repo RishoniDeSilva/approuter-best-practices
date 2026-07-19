@@ -25,7 +25,17 @@ npm install
 npm run dev
 ```
 
-It shows streaming with `<Suspense>`, `"use cache"` + `cacheTag`/`cacheLife`, Partial Pre-Rendering, Server Actions, feature-module structure, `proxy.ts`, and layered error handling (a damage-reports CRUD domain with form validation, error boundaries with retry, and a deliberately flaky widget) — with an in-memory mock database, so there's nothing to set up.
+It shows streaming with `<Suspense>`, `"use cache"` + `cacheTag`/`cacheLife` + `updateTag`, Partial Pre-Rendering, Server Actions, feature-module structure, `proxy.ts`, and layered error handling — with an in-memory mock database, so there's nothing to set up.
+
+Every failure mode is **replicable interactively**, via a damage-reports CRUD domain (list → details → create) and built-in triggers:
+
+- 💥 **Crash buttons** on the home page and dashboard walk the error-boundary ladder: the same client crash is caught by the page-level `error.tsx` on `/dashboard`, and bubbles to the app-wide boundary from `/`.
+- A **deliberately flaky dashboard widget** (~50% failure) degrades to a Retry card behind its own section boundary while the rest of the page stays alive.
+- The **create-report form** returns field-level validation errors as values — with the user's input preserved against React 19's post-action form reset (including the `<select>`, which needs a `key` remount).
+- Typing **"boom"** in a report title throws a simulated DB failure: the app-wide boundary shows a digest that correlates with the structured `onRequestError` log in your terminal.
+- `/reports/does-not-exist` renders the segment's contextual `not-found.tsx` with a 404.
+
+The full walkthrough is in the [example's README](examples/dashboard/README.md).
 
 ## Who is this for?
 
@@ -41,6 +51,7 @@ It shows streaming with `<Suspense>`, `"use cache"` + `cacheTag`/`cacheLife`, Pa
 4. **Fetch in parallel.** Start promises early, `await` late. Waterfalls are the #1 SSR performance killer.
 5. **Colocate by feature.** Route folders hold routing files; real code lives in feature modules.
 6. **Trust the defaults.** Turbopack, React Compiler, and the App Router defaults are tuned for you — reach for config only when you measure a problem.
+7. **Expected errors are values, unexpected errors are thrown.** Validation returns `FormState` from actions; crashes land in layered `error.tsx` boundaries whose retry buttons do `router.refresh()` + `reset()` — never `reset()` alone.
 
 ## Requirements
 
