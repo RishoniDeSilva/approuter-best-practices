@@ -246,6 +246,7 @@ export function DamageReportForm() {
       <select
         id="severity"
         name="severity"
+        key={values.severity ?? "unset"} // see note below — selects need a remount
         defaultValue={values.severity ?? ""}
         aria-invalid={!!fieldErrors.severity}
         aria-describedby={fieldErrors.severity ? "severity-error" : undefined}
@@ -278,6 +279,13 @@ uncontrolled inputs to their `defaultValue` — including when the action merely
 *returned* a validation error. Without echoing the submitted values back through
 state and into `defaultValue`, every failed submit silently wipes the user's
 input. This is the single most common `useActionState` footgun.
+
+**And the `<select>` sub-footgun:** for `input`/`textarea`, re-rendering with a
+new `defaultValue` updates the DOM attribute, so the post-action reset restores
+the echoed value. A `<select>`, however, only applies `defaultValue` **at
+mount** — after the reset it snaps back to the placeholder even though the prop
+changed. The `key={values.severity ?? "unset"}` forces a remount whenever the
+echoed value changes, so the user's selection survives failed validation too.
 
 > Need to pass extra arguments (an entity id, say) into an action used with
 > `useActionState`? Bind them: `useActionState(action.bind(null, entityId), initialState)`.

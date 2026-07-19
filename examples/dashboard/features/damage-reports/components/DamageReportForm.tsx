@@ -36,6 +36,10 @@ export function DamageReportForm() {
       <select
         id="severity"
         name="severity"
+        // Unlike input/textarea, a select only reads defaultValue at MOUNT —
+        // React 19's post-action reset would snap it back to the placeholder.
+        // Changing the key remounts it so the echoed value is re-applied.
+        key={values.severity ?? "unset"}
         defaultValue={values.severity ?? ""}
         aria-invalid={!!fieldErrors.severity}
         aria-describedby={fieldErrors.severity ? "severity-error" : undefined}
