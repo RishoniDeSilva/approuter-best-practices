@@ -10,7 +10,7 @@ Next.js 16 (released October 2025) is the biggest App Router release since 13. T
 
 ### Cache Components & `"use cache"`
 
-The old implicit caching layers (fetch cache, full route cache with surprising defaults) are gone in favor of a single explicit directive. Pages, components, and functions opt into caching with `"use cache"`, controlled by `cacheLife()` and invalidated by `cacheTag()`/`revalidateTag()`. Partial Pre-Rendering serves cached shells instantly while dynamic holes stream. Full guide in [Chapter 3](03-caching-and-cache-components.md).
+The old implicit caching layers (fetch cache, full route cache with surprising defaults) are gone in favor of a single explicit directive. Pages, components, and functions opt into caching with `"use cache"`, controlled by `cacheLife()` and invalidated by `cacheTag()` with `updateTag()` (Server Actions) or `revalidateTag()` (webhooks/handlers). Partial Pre-Rendering serves cached shells instantly while dynamic holes stream. Full guide in [Chapter 3](03-caching-and-cache-components.md).
 
 ### `proxy.ts` replaces `middleware.ts`
 
@@ -114,4 +114,4 @@ export default nextConfig;
 
 ---
 
-**Back to:** [README](../README.md)
+**Next:** [6. Error Handling →](06-error-handling.md)

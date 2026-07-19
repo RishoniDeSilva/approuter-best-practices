@@ -81,6 +81,85 @@ body {
   100% { background-position: -200% 0; }
 }
 
+.page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  max-width: 420px;
+}
+
+.form label {
+  font-weight: 600;
+  margin-top: 0.6rem;
+}
+
+.form input,
+.form select,
+.form textarea {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font: inherit;
+}
+
+.form [aria-invalid="true"] {
+  border-color: #c62828;
+}
+
+.form .button {
+  margin-top: 1rem;
+  align-self: flex-start;
+}
+
+.error-text {
+  color: #c62828;
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.error-card {
+  padding: 1rem 1.25rem;
+  background: #fdecea;
+  border: 1px solid #f5c6c0;
+  border-radius: 8px;
+  margin: 1rem 0;
+}
+
+.hint {
+  color: #666;
+  font-size: 0.85rem;
+}
+
+.badge {
+  display: inline-block;
+  padding: 0.1rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.badge-minor {
+  background: #e8f5e9;
+  color: #2e7d32;
+}
+
+.badge-moderate {
+  background: #fff8e1;
+  color: #b26a00;
+}
+
+.badge-severe {
+  background: #fdecea;
+  color: #c62828;
+}
+
 table {
   width: 100%;
   border-collapse: collapse;

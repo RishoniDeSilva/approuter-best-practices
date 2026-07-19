@@ -22,6 +22,11 @@ Then open http://localhost:3000.
 | `features/products/actions.ts` | Server Action setting a cookie, called from a client leaf | [1](../../docs/01-project-structure.md) / [2](../../docs/02-ssr-performance.md) |
 | `features/products/components/AddToCartButton.tsx` | `"use client"` at the leaf, `useTransition` pending state | [2. SSR Performance](../../docs/02-ssr-performance.md) |
 | `proxy.ts` | The Next.js 16 replacement for `middleware.ts` | [5. Next.js 16](../../docs/05-nextjs-16-features.md) |
+| `/reports` → `/reports/[id]` → `/reports/new` | Damage-reports domain: cached list, details with `notFound()`, create form | [6. Error Handling](../../docs/06-error-handling.md) |
+| `/reports/new` | Expected errors as values: `useActionState` + shared `FormState` union, field-level errors | [6. Error Handling](../../docs/06-error-handling.md) |
+| `/dashboard` conversion widget | Section error boundary + retry around a deliberately flaky data source | [6. Error Handling](../../docs/06-error-handling.md) |
+| `app/error.tsx`, `app/dashboard/error.tsx`, `app/global-error.tsx` | Layered boundaries with the `router.refresh()` + `reset()` retry pattern | [6. Error Handling](../../docs/06-error-handling.md) |
+| `instrumentation.ts` | `onRequestError` — one reporting point for all server errors | [6. Error Handling](../../docs/06-error-handling.md) |
 | `next.config.ts` | `cacheComponents` + `reactCompiler` enabled | [5. Next.js 16](../../docs/05-nextjs-16-features.md) |
 
 ## Things to try
@@ -30,3 +35,7 @@ Then open http://localhost:3000.
 2. Open `/products` twice — the second load is instant (cached, 300ms mock latency skipped).
 3. On a product page, click **Add to cart** — the cached shell stays static while the personalized cart count updates per request.
 4. Run `npm run build` and read the route table: `/products` is prerendered (`●`), `/dashboard` is dynamic, `/products/[id]` is partially prerendered.
+5. On `/dashboard`, the conversion-rate widget fails ~50% of the time — hit **Retry** and watch only that card recover while the rest of the page stays alive.
+6. Create a damage report at `/reports/new` with empty fields — validation errors render next to each field (expected errors as values, input preserved).
+7. Create one with **"boom"** in the title — the simulated DB failure throws, the app-wide `app/error.tsx` catches it, and the terminal shows the structured `[server-error]` log from `instrumentation.ts` with a matching digest.
+8. Visit `/reports/does-not-exist` — the segment's contextual `not-found.tsx` renders with a 404.

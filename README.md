@@ -13,6 +13,7 @@ A practical, opinionated guide to building fast, maintainable applications with 
 | [3. Caching & Cache Components](docs/03-caching-and-cache-components.md) | The Next.js 16 opt-in caching model: `use cache`, `cacheLife`, `cacheTag`, and Partial Pre-Rendering |
 | [4. Turbopack](docs/04-turbopack.md) | The now-default Rust bundler: what changed, filesystem caching, migration notes |
 | [5. What's New in Next.js 16](docs/05-nextjs-16-features.md) | Cache Components, `proxy.ts`, React Compiler, DevTools MCP, breaking changes |
+| [6. Error Handling](docs/06-error-handling.md) | Consistent error handling: `error.tsx`, retry/reset done right, form errors with `useActionState`, `not-found`, `onRequestError` |
 
 ## 🧪 Example Project
 
@@ -24,7 +25,7 @@ npm install
 npm run dev
 ```
 
-It shows streaming with `<Suspense>`, `"use cache"` + `cacheTag`/`cacheLife`, Partial Pre-Rendering, Server Actions, feature-module structure, and `proxy.ts` — with an in-memory mock database, so there's nothing to set up.
+It shows streaming with `<Suspense>`, `"use cache"` + `cacheTag`/`cacheLife`, Partial Pre-Rendering, Server Actions, feature-module structure, `proxy.ts`, and layered error handling (a damage-reports CRUD domain with form validation, error boundaries with retry, and a deliberately flaky widget) — with an in-memory mock database, so there's nothing to set up.
 
 ## Who is this for?
 

@@ -1,5 +1,6 @@
 import { Suspense } from "react";
-import { getRecentOrders, getStats } from "@/features/analytics/queries";
+import { SectionErrorBoundary } from "@/components/section-error-boundary";
+import { getConversionRate, getRecentOrders, getStats } from "@/features/analytics/queries";
 
 // Streaming demo (Chapter 2): the heading flushes immediately, Stats
 // arrives after ~200ms, RecentOrders streams in after ~1.5s. Neither
@@ -14,6 +15,17 @@ export default function DashboardPage() {
       <Suspense fallback={<div className="skeleton" style={{ height: 96, marginTop: 16 }} />}>
         <Stats />
       </Suspense>
+
+      <h2>Conversion rate</h2>
+      <p className="hint">
+        This widget fails ~50% of the time on purpose — its own error boundary keeps the
+        rest of the page alive. Hit Retry (or reload) until it succeeds.
+      </p>
+      <SectionErrorBoundary fallbackTitle="Conversion rate is unavailable right now.">
+        <Suspense fallback={<div className="skeleton" style={{ height: 72 }} />}>
+          <ConversionRate />
+        </Suspense>
+      </SectionErrorBoundary>
 
       <h2>Recent orders</h2>
       <Suspense fallback={<div className="skeleton" style={{ height: 160 }} />}>
@@ -30,6 +42,15 @@ async function Stats() {
       <div className="card"><h3>${(stats.revenue / 1000).toFixed(1)}k</h3>Revenue</div>
       <div className="card"><h3>{stats.orders}</h3>Orders</div>
       <div className="card"><h3>{stats.customers}</h3>Customers</div>
+    </div>
+  );
+}
+
+async function ConversionRate() {
+  const rate = await getConversionRate(); // throws ~50% of the time
+  return (
+    <div className="card">
+      <h3>{rate}%</h3>Visitors who purchased
     </div>
   );
 }

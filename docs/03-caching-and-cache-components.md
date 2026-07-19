@@ -89,7 +89,7 @@ const nextConfig: NextConfig = {
 
 Rule of thumb: pick the **longest lifetime you can tolerate**, then rely on tags (below) to invalidate the moment data actually changes.
 
-## 3.4 Targeted invalidation with `cacheTag` + `revalidateTag`
+## 3.4 Targeted invalidation with `cacheTag` + `updateTag`/`revalidateTag`
 
 ```ts
 import { cacheTag } from "next/cache";
@@ -104,13 +104,18 @@ export async function getProduct(id: string) {
 ```ts
 // features/products/actions.ts
 "use server";
-import { revalidateTag } from "next/cache";
+import { updateTag } from "next/cache";
 
 export async function updateProduct(id: string, data: ProductInput) {
   await db.product.update({ where: { id }, data });
-  revalidateTag(`product-${id}`); // every cached page/component using this tag refreshes
+  updateTag(`product-${id}`); // every cached page/component using this tag refreshes
 }
 ```
+
+Next.js 16 splits invalidation into two APIs — pick by *where you're calling from*:
+
+- **`updateTag(tag)`** — Server Actions only. Expires the tag **and** refreshes it within the same request, so the user immediately sees their own write (the create-then-redirect flow).
+- **`revalidateTag(tag, profile)`** — Route Handlers, webhooks, background jobs. Marks the tag stale; the second argument (a `cacheLife` profile such as `"max"`, required since 16.2) controls how the entry is served while revalidating.
 
 Tag by **entity** (`product-42`), and optionally by **collection** (`products`) so list pages can be invalidated with one call. This beats time-based revalidation in almost every case: content is never stale, and never rebuilt without cause.
 

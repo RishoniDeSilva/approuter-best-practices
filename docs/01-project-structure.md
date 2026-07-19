@@ -92,7 +92,7 @@ A `"use client"` directive marks the *entry point* of a client bundle — everyt
 // features/orders/actions.ts
 "use server";
 
-import { revalidateTag } from "next/cache";
+import { updateTag } from "next/cache";
 import { z } from "zod";
 
 const CancelOrder = z.object({ orderId: z.string().uuid() });
@@ -100,7 +100,7 @@ const CancelOrder = z.object({ orderId: z.string().uuid() });
 export async function cancelOrder(formData: FormData) {
   const { orderId } = CancelOrder.parse(Object.fromEntries(formData));
   await db.order.update({ where: { id: orderId }, data: { status: "cancelled" } });
-  revalidateTag(`order-${orderId}`);
+  updateTag(`order-${orderId}`);
 }
 ```
 
