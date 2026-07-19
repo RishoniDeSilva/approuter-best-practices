@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { CrashButton } from "@/components/crash-button";
 
 // Static content, no data — prerendered at build time.
 
@@ -26,6 +27,10 @@ export default function HomePage() {
       <p>
         Also on display: feature-module structure (<code>features/</code>), Server Actions,
         a client-leaf <code>AddToCartButton</code>, and <code>proxy.ts</code>.
+      </p>
+      <p className="hint">
+        <CrashButton label="💥 Crash the app shell" /> — this route has no error.tsx of
+        its own, so the error bubbles to the app-wide boundary in app/error.tsx.
       </p>
     </>
   );

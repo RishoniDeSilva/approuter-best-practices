@@ -1,4 +1,5 @@
 import { Suspense } from "react";
+import { CrashButton } from "@/components/crash-button";
 import { SectionErrorBoundary } from "@/components/section-error-boundary";
 import { getConversionRate, getRecentOrders, getStats } from "@/features/analytics/queries";
 
@@ -11,6 +12,10 @@ export default function DashboardPage() {
     <>
       <h1>Dashboard</h1>
       <p>Uncached, per-request data — each section streams in independently.</p>
+      <p className="hint">
+        <CrashButton label="💥 Crash the dashboard" /> — thrown outside any section
+        boundary, so app/dashboard/error.tsx takes over this page. “Try again” recovers.
+      </p>
 
       <Suspense fallback={<div className="skeleton" style={{ height: 96, marginTop: 16 }} />}>
         <Stats />

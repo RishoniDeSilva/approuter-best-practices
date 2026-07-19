@@ -39,3 +39,8 @@ Then open http://localhost:3000.
 6. Create a damage report at `/reports/new` with empty fields — validation errors render next to each field (expected errors as values, input preserved).
 7. Create one with **"boom"** in the title — the simulated DB failure throws, the app-wide `app/error.tsx` catches it, and the terminal shows the structured `[server-error]` log from `instrumentation.ts` with a matching digest.
 8. Visit `/reports/does-not-exist` — the segment's contextual `not-found.tsx` renders with a 404.
+9. Click **💥 Crash the dashboard** on `/dashboard` — a client component throws during render, `app/dashboard/error.tsx` replaces the page (nav stays alive), and **Try again** recovers because reset remounts the crashed component with fresh state.
+10. Click **💥 Crash the app shell** on the home page — no segment `error.tsx` there, so the same crash bubbles to the app-wide `app/error.tsx` instead. That's the boundary ladder in action.
+11. The only layer without a button is `global-error.tsx`: it fires solely for **root layout** crashes, so temporarily add `throw new Error("test")` inside `RootLayout` (`app/layout.tsx`) to see it.
+
+> In `next dev`, Next's error overlay/toast appears on top of boundary UI — dismiss it, or use `npm run build && npm start` to see exactly what users see.
